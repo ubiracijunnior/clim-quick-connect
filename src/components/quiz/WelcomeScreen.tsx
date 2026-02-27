@@ -22,15 +22,8 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
         <img
           src={climLogo}
           alt="CLIM TECH logo"
-          className="w-36 h-36 object-contain mb-6 drop-shadow-lg"
+          className="w-48 h-48 object-contain mb-8 drop-shadow-lg"
         />
-
-        <h1 className="text-3xl font-extrabold text-white mb-1 drop-shadow-md">
-          CLIM TECH
-        </h1>
-        <p className="text-sm text-white/70 mb-8 font-medium">
-          Ar-condicionado · Climatização
-        </p>
 
         <p className="text-base text-white/90 leading-relaxed mb-10 max-w-xs drop-shadow-sm">
           Olá! 👋 Vamos solicitar seu atendimento com a{" "}
