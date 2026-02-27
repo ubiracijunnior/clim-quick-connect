@@ -1,4 +1,5 @@
-import { Snowflake } from "lucide-react";
+import climLogo from "@/assets/clim-logo.png";
+import welcomeBg from "@/assets/welcome-bg.jpg";
 
 interface WelcomeScreenProps {
   onStart: () => void;
@@ -6,30 +7,44 @@ interface WelcomeScreenProps {
 
 export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[100dvh] bg-background px-6 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
-        <Snowflake size={32} className="text-primary" />
+    <div
+      className="relative flex flex-col items-center justify-center min-h-[100dvh] px-6 text-center"
+    >
+      {/* Background image with overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${welcomeBg})` }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70" />
+
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center">
+        <img
+          src={climLogo}
+          alt="CLIM TECH logo"
+          className="w-36 h-36 object-contain mb-6 drop-shadow-lg"
+        />
+
+        <h1 className="text-3xl font-extrabold text-white mb-1 drop-shadow-md">
+          CLIM TECH
+        </h1>
+        <p className="text-sm text-white/70 mb-8 font-medium">
+          Ar-condicionado · Climatização
+        </p>
+
+        <p className="text-base text-white/90 leading-relaxed mb-10 max-w-xs drop-shadow-sm">
+          Olá! 👋 Vamos solicitar seu atendimento com a{" "}
+          <strong className="text-white">CLIM TECH</strong>. Responda rapidinho e já te atendemos no
+          WhatsApp.
+        </p>
+
+        <button
+          onClick={onStart}
+          className="w-full max-w-xs py-4 rounded-xl font-bold text-base tracking-wide bg-primary text-primary-foreground active:scale-[0.97] transition-transform shadow-lg"
+        >
+          COMEÇAR
+        </button>
       </div>
-
-      <h1 className="text-2xl font-extrabold text-foreground mb-1">
-        CLIM TECH
-      </h1>
-      <p className="text-sm text-muted-foreground mb-8 font-medium">
-        Ar-condicionado · Climatização
-      </p>
-
-      <p className="text-base text-foreground leading-relaxed mb-10 max-w-xs">
-        Olá! 👋 Vamos solicitar seu atendimento com a{" "}
-        <strong>CLIM TECH</strong>. Responda rapidinho e já te atendemos no
-        WhatsApp.
-      </p>
-
-      <button
-        onClick={onStart}
-        className="w-full max-w-xs py-4 rounded-xl font-bold text-base tracking-wide bg-primary text-primary-foreground active:scale-[0.97] transition-transform"
-      >
-        COMEÇAR
-      </button>
     </div>
   );
 }
