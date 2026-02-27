@@ -47,6 +47,23 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        quiz: {
+          selected: "hsl(var(--quiz-card-selected))",
+          border: "hsl(var(--quiz-card-border))",
+          hover: "hsl(var(--quiz-card-hover))",
+        },
+        progress: {
+          track: "hsl(var(--progress-track))",
+          fill: "hsl(var(--progress-fill))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
