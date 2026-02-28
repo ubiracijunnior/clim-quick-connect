@@ -204,7 +204,7 @@ export function useQuizState() {
 }
 
 export function buildWhatsAppLink(data: QuizData): string {
-  const numero = "55719966054191";
+  const numero = "5571996054191";
 
   let bloco = "";
   if (data.servico === "Instalação") {
