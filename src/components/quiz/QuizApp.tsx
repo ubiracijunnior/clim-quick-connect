@@ -1,3 +1,5 @@
+import { useState, useCallback } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useQuizState } from "@/hooks/useQuizState";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { SummaryScreen } from "./SummaryScreen";
@@ -31,12 +33,47 @@ export function QuizApp() {
   const quiz = useQuizState();
   const { data, updateField, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps } = quiz;
 
+  const [direction, setDirection] = useState(1);
+  const shouldReduceMotion = useReducedMotion();
+
+  const pageVariants = {
+    enter: (dir: number) => ({
+      opacity: 0,
+      x: shouldReduceMotion ? 0 : dir >= 0 ? 12 : -12,
+      filter: "blur(0.5px)",
+    }),
+    center: {
+      opacity: 1,
+      x: 0,
+      filter: "blur(0px)",
+    },
+    exit: (dir: number) => ({
+      opacity: 0,
+      x: shouldReduceMotion ? 0 : dir >= 0 ? -12 : 12,
+      filter: "blur(0.5px)",
+    }),
+  };
+
+  const pageTransition = shouldReduceMotion
+    ? { duration: 0.12 }
+    : { type: "tween" as const, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], duration: 0.22 };
+
+  const handleNext = useCallback(() => {
+    setDirection(1);
+    goNext();
+  }, [goNext]);
+
+  const handleBack = useCallback(() => {
+    setDirection(-1);
+    goBack();
+  }, [goBack]);
+
   if (currentStep === "welcome") {
-    return <WelcomeScreen onStart={goNext} />;
+    return <WelcomeScreen onStart={handleNext} />;
   }
 
   if (currentStep === "resumo") {
-    return <SummaryScreen data={data} onBack={goBack} />;
+    return <SummaryScreen data={data} onBack={handleBack} />;
   }
 
   const config = STEP_CONFIG[currentStep] || { title: "" };
@@ -213,11 +250,24 @@ export function QuizApp() {
       stepNumber={quizStepNumber}
       totalSteps={totalQuizSteps}
       showBack={true}
-      onBack={goBack}
+      onBack={handleBack}
       canGoNext={canGoNext}
-      onNext={goNext}
+      onNext={handleNext}
     >
-      {renderContent()}
+      <AnimatePresence mode="wait" initial={false} custom={direction}>
+        <motion.div
+          key={currentStep}
+          custom={direction}
+          variants={pageVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={pageTransition}
+          style={{ willChange: "transform, opacity" }}
+        >
+          {renderContent()}
+        </motion.div>
+      </AnimatePresence>
     </StepLayout>
   );
 }
