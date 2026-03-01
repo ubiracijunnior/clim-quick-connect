@@ -4,6 +4,64 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
+/* ── Mobile keyboard/zoom UX fixes ── */
+:root {
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Prevent iOS zoom on focus: font-size >= 16px */
+input, textarea, select, button {
+  font-size: 16px !important;
+  line-height: 1.2;
+}
+
+/* Scroll margin so sticky footer doesn't cover focused field */
+input, textarea, select {
+  scroll-margin-bottom: 140px;
+}
+
+/* Quiz screen wrapper */
+.quiz-screen {
+  min-height: 100dvh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(0px + var(--safe-top));
+  padding-bottom: calc(0px + var(--safe-bottom));
+}
+
+.quiz-content {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.quiz-footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  background: hsl(var(--card) / 0.96);
+  backdrop-filter: blur(8px);
+  padding: 12px 16px calc(12px + var(--safe-bottom));
+  border-top: 1px solid hsl(var(--border));
+}
+
+.quiz-footer .primary-button {
+  width: 100%;
+  min-height: 48px;
+}
+
+/* Reduce zoom on tap */
+* { touch-action: manipulation; }
+
 @layer base {
   :root {
     --background: 210 25% 97%;
