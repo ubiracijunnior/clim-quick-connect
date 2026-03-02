@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo } from "react";
+import { fetchVisitFee } from "@/hooks/useCityNeighborhoods";
 
 export interface QuizData {
   servico: string;
@@ -6,7 +7,13 @@ export interface QuizData {
   tipo_aparelho: string;
   quantidade: string;
   marca: string;
-  bairro_cidade: string;
+  bairro_cidade: string; // kept for backward compat
+  // New city/neighborhood fields
+  cidade: string;
+  cidade_id: string;
+  bairro: string;
+  bairro_id: string;
+  visit_fee_value: number;
   turno: string;
   faixa_horario: string;
   urgencia: string;
@@ -27,6 +34,11 @@ const initialData: QuizData = {
   quantidade: "",
   marca: "",
   bairro_cidade: "",
+  cidade: "",
+  cidade_id: "",
+  bairro: "",
+  bairro_id: "",
+  visit_fee_value: 0,
   turno: "",
   faixa_horario: "",
   urgencia: "",
@@ -46,7 +58,7 @@ export type StepId =
   | "tipo_aparelho"
   | "quantidade"
   | "marca"
-  | "bairro_cidade"
+  | "cidade_bairro"
   | "btus"
   | "infra"
   | "plano_higienizacao"
@@ -70,6 +82,31 @@ export function useQuizState() {
     []
   );
 
+  // When city changes, clear neighborhood and fee
+  const setCity = useCallback((cityId: string, cityName: string) => {
+    setData((prev) => ({
+      ...prev,
+      cidade_id: cityId,
+      cidade: cityName,
+      bairro_id: "",
+      bairro: "",
+      visit_fee_value: 0,
+      bairro_cidade: cityName, // backward compat
+    }));
+  }, []);
+
+  // When neighborhood changes, fetch fee
+  const setNeighborhood = useCallback(async (neighborhoodId: string, neighborhoodName: string) => {
+    const fee = await fetchVisitFee(neighborhoodId);
+    setData((prev) => ({
+      ...prev,
+      bairro_id: neighborhoodId,
+      bairro: neighborhoodName,
+      visit_fee_value: fee,
+      bairro_cidade: `${prev.cidade} / ${neighborhoodName}`, // backward compat
+    }));
+  }, []);
+
   const steps = useMemo((): StepId[] => {
     const s: StepId[] = [
       "welcome",
@@ -78,7 +115,7 @@ export function useQuizState() {
       "tipo_aparelho",
       "quantidade",
       "marca",
-      "bairro_cidade",
+      "cidade_bairro",
     ];
 
     // Conditional blocks based on service
@@ -122,8 +159,8 @@ export function useQuizState() {
         return !!data.quantidade;
       case "marca":
         return data.marca.trim().length >= 2;
-      case "bairro_cidade":
-        return data.bairro_cidade.trim().length >= 3;
+      case "cidade_bairro":
+        return !!data.cidade_id && !!data.bairro_id;
       case "btus":
         return !!data.btus;
       case "infra":
@@ -192,6 +229,8 @@ export function useQuizState() {
   return {
     data,
     updateField,
+    setCity,
+    setNeighborhood,
     currentStep,
     currentStepIndex,
     steps,
@@ -201,6 +240,10 @@ export function useQuizState() {
     goNext,
     goBack,
   };
+}
+
+export function formatFee(value: number): string {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
 export function buildWhatsAppLink(data: QuizData): string {
@@ -219,6 +262,7 @@ export function buildWhatsAppLink(data: QuizData): string {
   }
 
   const telefone = data.telefone_alternativo.trim() || "Não informado";
+  const feeText = formatFee(data.visit_fee_value);
 
   const msg =
     `Olá! Meu nome é ${data.nome_cliente} e quero solicitar um atendimento na CLIM TECH.\n\n` +
@@ -227,12 +271,15 @@ export function buildWhatsAppLink(data: QuizData): string {
     `❄️ Tipo de aparelho: ${data.tipo_aparelho}\n` +
     `🔢 Quantidade: ${data.quantidade}\n` +
     `🏷️ Marca: ${data.marca}\n` +
-    `📍 Bairro/Cidade: ${data.bairro_cidade}\n\n` +
+    `📍 Cidade: ${data.cidade}\n` +
+    `📍 Bairro: ${data.bairro}\n\n` +
     `🕒 Turno: ${data.turno}\n` +
     `⏰ Faixa preferencial: ${data.faixa_horario}\n` +
     `⚡ Urgência: ${data.urgencia}\n` +
     `📞 Telefone alternativo: ${telefone}\n\n` +
     (bloco ? bloco + "\n" : "") +
+    `💰 Taxa de visita técnica: ${feeText}\n` +
+    `ℹ️ Se o serviço for realizado, esse valor será abatido do total. Caso contrário, a taxa permanece como custo da visita.\n\n` +
     `Pode me passar os próximos horários disponíveis?`;
 
   return `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;

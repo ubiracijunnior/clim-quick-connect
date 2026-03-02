@@ -6,6 +6,7 @@ import { SummaryScreen } from "./SummaryScreen";
 import { StepLayout } from "./StepLayout";
 import { RadioCards } from "./RadioCards";
 import { QuizInput } from "./QuizInput";
+import { CityNeighborhoodStep } from "./CityNeighborhoodStep";
 
 const STEP_CONFIG: Record<
   string,
@@ -16,7 +17,7 @@ const STEP_CONFIG: Record<
   tipo_aparelho: { title: "Tipo de aparelho" },
   quantidade: { title: "Quantos aparelhos?", subtitle: "Selecione a quantidade" },
   marca: { title: "Marca / Fabricante", subtitle: "Informe a marca do aparelho" },
-  bairro_cidade: { title: "Bairro / Cidade", subtitle: "Onde você está localizado?" },
+  cidade_bairro: { title: "Localização", subtitle: "Selecione sua cidade e bairro" },
   turno: { title: "Turno preferido", subtitle: "Qual melhor horário para você?" },
   faixa_horario: { title: "Faixa de horário", subtitle: "Confirme a faixa preferencial" },
   urgencia: { title: "Qual a urgência?", subtitle: "Nos ajude a priorizar seu atendimento" },
@@ -31,7 +32,7 @@ const STEP_CONFIG: Record<
 
 export function QuizApp() {
   const quiz = useQuizState();
-  const { data, updateField, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps } = quiz;
+  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps } = quiz;
 
   const [direction, setDirection] = useState(1);
   const shouldReduceMotion = useReducedMotion();
@@ -129,14 +130,13 @@ export function QuizApp() {
             minLength={2}
           />
         );
-      case "bairro_cidade":
+      case "cidade_bairro":
         return (
-          <QuizInput
-            value={data.bairro_cidade}
-            onChange={(v) => updateField("bairro_cidade", v)}
-            placeholder="Ex: Itapuã / Salvador"
-            maxLength={40}
-            minLength={3}
+          <CityNeighborhoodStep
+            cityId={data.cidade_id}
+            neighborhoodId={data.bairro_id}
+            onCityChange={setCity}
+            onNeighborhoodChange={setNeighborhood}
           />
         );
       case "turno":

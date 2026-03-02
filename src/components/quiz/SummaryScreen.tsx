@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ArrowLeft, CheckCircle2, MessageCircle } from "lucide-react";
-import { type QuizData, buildWhatsAppLink } from "@/hooks/useQuizState";
+import { ArrowLeft, CheckCircle2, MessageCircle, AlertTriangle } from "lucide-react";
+import { type QuizData, buildWhatsAppLink, formatFee } from "@/hooks/useQuizState";
 
 interface SummaryScreenProps {
   data: QuizData;
@@ -26,6 +26,10 @@ export function SummaryScreen({ data, onBack }: SummaryScreenProps) {
     const url = buildWhatsAppLink(data);
     window.open(url, "_blank", "noopener");
   };
+
+  const feeDisplay = data.visit_fee_value > 0
+    ? formatFee(data.visit_fee_value)
+    : "R$ 0,00 (a confirmar)";
 
   return (
     <div className="flex flex-col min-h-[100dvh] bg-background">
@@ -60,7 +64,8 @@ export function SummaryScreen({ data, onBack }: SummaryScreenProps) {
           <SummaryRow label="Tipo de aparelho" value={data.tipo_aparelho} />
           <SummaryRow label="Quantidade" value={data.quantidade} />
           <SummaryRow label="Marca" value={data.marca} />
-          <SummaryRow label="Bairro/Cidade" value={data.bairro_cidade} />
+          <SummaryRow label="Cidade" value={data.cidade} />
+          <SummaryRow label="Bairro" value={data.bairro} />
           <SummaryRow label="Turno" value={data.turno} />
           <SummaryRow label="Faixa preferencial" value={data.faixa_horario} />
           <SummaryRow label="Urgência" value={data.urgencia} />
@@ -100,6 +105,31 @@ export function SummaryScreen({ data, onBack }: SummaryScreenProps) {
               )}
             </div>
           )}
+
+          {/* Visit fee */}
+          <div className="mt-3 pt-3 border-t border-border">
+            <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
+              💰 Taxa de Visita Técnica
+            </p>
+            <SummaryRow label="Valor" value={feeDisplay} />
+          </div>
+        </div>
+
+        {/* Attention block */}
+        <div className="mt-4 bg-warning/10 border border-warning/30 rounded-2xl p-4">
+          <div className="flex items-start gap-2.5">
+            <AlertTriangle size={20} className="text-warning flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-bold text-foreground mb-1">ATENÇÃO</p>
+              <p className="text-sm text-foreground leading-relaxed">
+                Será cobrada uma taxa de visita técnica de{" "}
+                <strong>{feeDisplay}</strong> para cobrir custos de deslocamento.
+              </p>
+              <p className="text-sm text-foreground leading-relaxed mt-1">
+                Se o serviço for realizado, esse valor será abatido do total. Caso não seja realizado, a taxa permanece como custo da visita.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Confirmation */}
