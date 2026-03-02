@@ -38,6 +38,14 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           COMEÇAR
         </button>
       </div>
+
+      {/* Discrete admin link */}
+      <a
+        href="/admin-login"
+        className="absolute bottom-4 right-4 z-10 text-[10px] text-white/30 hover:text-white/60 transition-colors"
+      >
+        Admin
+      </a>
     </div>
   );
 }
