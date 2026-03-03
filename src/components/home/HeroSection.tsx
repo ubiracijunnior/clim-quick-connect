@@ -1,6 +1,9 @@
 import climLogo from "@/assets/clim-logo.png";
 import welcomeBg from "@/assets/welcome-bg.jpg";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const ease = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
 export function HeroSection() {
   const navigate = useNavigate();
@@ -20,46 +23,70 @@ export function HeroSection() {
 
       <div className="relative z-10 w-full max-w-[480px] mx-auto px-4 pt-10 pb-10 flex flex-col items-center text-center">
         {/* Logo */}
-        <img
+        <motion.img
           src={climLogo}
           alt="CLIM TECH logo"
           className="w-36 h-36 object-contain mb-6 drop-shadow-lg"
           style={{ maxWidth: "160px" }}
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease }}
         />
 
         {/* Title */}
-        <h1 className="text-2xl font-extrabold text-white leading-tight mb-3 drop-shadow-md"
-            style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
+        <motion.h1
+          className="text-2xl font-extrabold text-white leading-tight mb-3 drop-shadow-md"
+          style={{ overflowWrap: "break-word", wordBreak: "break-word" }}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease, delay: 0.15 }}
+        >
           Ar-condicionado gelando de verdade.
-        </h1>
+        </motion.h1>
 
-        <p className="text-sm text-white/85 leading-relaxed mb-6 max-w-xs drop-shadow-sm"
-           style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
+        <motion.p
+          className="text-sm text-white/85 leading-relaxed mb-6 max-w-xs drop-shadow-sm"
+          style={{ overflowWrap: "break-word", wordBreak: "break-word" }}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease, delay: 0.28 }}
+        >
           Instalação, higienização e manutenção com atendimento organizado.
-        </p>
+        </motion.p>
 
         {/* CTA Primary */}
-        <button
+        <motion.button
           onClick={() => navigate("/?quiz=1")}
           className="w-full py-4 rounded-xl font-bold text-base tracking-wide bg-primary text-primary-foreground active:scale-[0.97] transition-transform shadow-lg mb-3"
           style={{ minHeight: "52px" }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease, delay: 0.4 }}
         >
           AGENDAR VISITA TÉCNICA 🛠️
-        </button>
+        </motion.button>
 
         {/* CTA Secondary */}
-        <a
+        <motion.a
           href={whatsappLink}
           target="_blank"
           rel="noopener noreferrer"
           className="w-full py-3.5 rounded-xl font-bold text-base tracking-wide border-2 border-white/40 text-white bg-white/10 backdrop-blur-sm text-center active:scale-[0.97] transition-transform block"
           style={{ minHeight: "48px" }}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease, delay: 0.5 }}
         >
           FALAR NO WHATSAPP 💬
-        </a>
+        </motion.a>
 
         {/* Trust chips */}
-        <div className="flex flex-wrap justify-center gap-2 mt-6">
+        <motion.div
+          className="flex flex-wrap justify-center gap-2 mt-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
+        >
           {["Atendimento rápido", "Técnicos experientes", "Transparência"].map((chip) => (
             <span
               key={chip}
@@ -68,7 +95,7 @@ export function HeroSection() {
               {chip}
             </span>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
