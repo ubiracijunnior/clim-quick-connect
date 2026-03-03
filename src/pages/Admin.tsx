@@ -165,7 +165,10 @@ export default function Admin() {
   if (loading) return <div className="p-8 text-muted-foreground">Carregando…</div>;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative">
+      {/* Background pattern */}
+      <div className="fixed inset-0 bg-gradient-to-br from-primary/10 via-background to-accent/10 -z-10" />
+      <div className="fixed inset-0 opacity-[0.03] -z-10" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23000\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
       {/* Header */}
       <div className="sticky top-0 z-10 bg-card border-b border-border px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -228,7 +231,7 @@ export default function Admin() {
         </div>
 
         {/* Table */}
-        <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-lg shadow-primary/5">
           <div className="grid grid-cols-[1fr_auto_auto] gap-2 px-4 py-2.5 bg-muted text-xs font-semibold text-muted-foreground uppercase tracking-wide">
             <span>Bairro</span>
             <span className="w-24 text-center">Taxa (R$)</span>
