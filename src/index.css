@@ -13,8 +13,24 @@
 html, body {
   height: 100%;
   width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+p, h1, h2, h3 {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Prevent iOS zoom on focus: font-size >= 16px */
