@@ -4,15 +4,19 @@ import { ChevronDown } from "lucide-react";
 interface CityNeighborhoodStepProps {
   cityId: string;
   neighborhoodId: string;
+  endereco: string;
   onCityChange: (cityId: string, cityName: string) => void;
   onNeighborhoodChange: (neighborhoodId: string, neighborhoodName: string) => void;
+  onEnderecoChange: (value: string) => void;
 }
 
 export function CityNeighborhoodStep({
   cityId,
   neighborhoodId,
+  endereco,
   onCityChange,
   onNeighborhoodChange,
+  onEnderecoChange,
 }: CityNeighborhoodStepProps) {
   const { cities, loading: loadingCities } = useCities();
   const { neighborhoods, loading: loadingNeighborhoods } = useNeighborhoods(cityId || null);
@@ -82,6 +86,30 @@ export function CityNeighborhoodStep({
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none"
             />
           </div>
+        </div>
+      )}
+
+      {/* Address field (only shows after neighborhood is selected) */}
+      {neighborhoodId && (
+        <div>
+          <label className="block text-sm font-semibold text-foreground mb-2">
+            Endereço, número e ponto de referência
+          </label>
+          <input
+            type="text"
+            value={endereco}
+            onChange={(e) => {
+              if (e.target.value.length <= 100) {
+                onEnderecoChange(e.target.value);
+              }
+            }}
+            placeholder="Ex: Rua das Flores, 123 — próximo ao mercado"
+            className="w-full px-4 py-3.5 rounded-xl border-2 border-quiz-border bg-card text-foreground placeholder:text-muted-foreground font-medium text-sm focus:outline-none focus:border-quiz-selected transition-colors"
+            maxLength={100}
+          />
+          <p className="text-xs text-muted-foreground mt-1.5 text-right">
+            {endereco.length}/100
+          </p>
         </div>
       )}
     </div>

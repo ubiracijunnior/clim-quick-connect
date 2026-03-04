@@ -13,6 +13,7 @@ export interface QuizData {
   cidade_id: string;
   bairro: string;
   bairro_id: string;
+  endereco: string;
   visit_fee_value: number;
   turno: string;
   faixa_horario: string;
@@ -38,6 +39,7 @@ const initialData: QuizData = {
   cidade_id: "",
   bairro: "",
   bairro_id: "",
+  endereco: "",
   visit_fee_value: 0,
   turno: "",
   faixa_horario: "",
@@ -159,7 +161,7 @@ export function useQuizState() {
       case "marca":
         return data.marca.trim().length >= 2;
       case "cidade_bairro":
-        return !!data.cidade_id && !!data.bairro_id;
+        return !!data.cidade_id && !!data.bairro_id && data.endereco.trim().length >= 3;
       case "btus":
         return !!data.btus;
       case "infra":
@@ -271,7 +273,8 @@ export function buildWhatsAppLink(data: QuizData): string {
     `🔢 Quantidade: ${data.quantidade}\n` +
     `🏷️ Marca: ${data.marca}\n` +
     `📍 Cidade: ${data.cidade}\n` +
-    `📍 Bairro: ${data.bairro}\n\n` +
+    `📍 Bairro: ${data.bairro}\n` +
+    `📌 Endereço: ${data.endereco}\n\n` +
     `🕒 Turno: ${data.turno}\n` +
     `⏰ Faixa preferencial: ${data.faixa_horario}\n` +
     `⚡ Urgência: ${data.urgencia}\n` +

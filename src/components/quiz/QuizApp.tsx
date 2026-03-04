@@ -26,7 +26,7 @@ const STEP_CONFIG: Record<
   telefone_alternativo: { title: "Qual o seu melhor WhatsApp?", subtitle: "Opcional — outro número para contato" },
   btus: { title: "Capacidade (BTUs)", subtitle: "Selecione a potência desejada" },
   infra: { title: "Infraestrutura", subtitle: "Você já possui suporte/tubos/conexões?" },
-  plano_higienizacao: { title: "Plano de Higienização", subtitle: "Escolha o plano ideal" },
+  plano_higienizacao: { title: "Você prefere qual tipo de Higienização?", subtitle: "Escolha a opção ideal" },
   problema: { title: "Qual o problema?", subtitle: "Selecione o que melhor descreve" },
   detalhes: { title: "Descreva o problema", subtitle: "Opcional — conte mais detalhes" },
 };
@@ -133,8 +133,10 @@ export function QuizApp() {
           <CityNeighborhoodStep
             cityId={data.cidade_id}
             neighborhoodId={data.bairro_id}
+            endereco={data.endereco}
             onCityChange={setCity}
             onNeighborhoodChange={setNeighborhood}
+            onEnderecoChange={(v) => updateField("endereco", v)}
           />
         );
       case "turno":
@@ -213,7 +215,7 @@ export function QuizApp() {
       case "plano_higienizacao":
         return (
           <RadioCards
-            options={["Basic (somente evaporadora)", "Premium (evaporadora + condensadora)"]}
+            options={["Básica (Limpeza detalhada da Evaporadora)", "Completa (Limpeza profunda da Evaporadora e Condensadora)"]}
             value={data.plano_higienizacao}
             onChange={(v) => updateField("plano_higienizacao", v)}
           />
