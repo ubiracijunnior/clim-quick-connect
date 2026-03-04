@@ -23,7 +23,7 @@ const STEP_CONFIG: Record<
   faixa_horario: { title: "Faixa de horário", subtitle: "Confirme a faixa preferencial" },
   urgencia: { title: "Qual a urgência?", subtitle: "Nos ajude a priorizar seu atendimento" },
   nome_cliente: { title: "Qual o seu nome?" },
-  telefone_alternativo: { title: "Telefone alternativo", subtitle: "Opcional — outro número para contato" },
+  telefone_alternativo: { title: "Qual o seu melhor WhatsApp?", subtitle: "Opcional — outro número para contato" },
   btus: { title: "Capacidade (BTUs)", subtitle: "Selecione a potência desejada" },
   infra: { title: "Infraestrutura", subtitle: "Você já possui suporte/tubos/conexões?" },
   plano_higienizacao: { title: "Plano de Higienização", subtitle: "Escolha o plano ideal" },
