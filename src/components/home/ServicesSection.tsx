@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Wrench, Wind, SprayCan, ShieldCheck, Settings } from "lucide-react";
 import { ScrollFadeIn } from "./ScrollFadeIn";
 
@@ -11,19 +10,16 @@ const services = [
 ];
 
 export function ServicesSection() {
-  const navigate = useNavigate();
-
   return (
     <section className="w-full max-w-[480px] mx-auto px-4 py-8">
       <ScrollFadeIn>
-        <h2 className="text-lg font-bold text-foreground mb-4">Serviços</h2>
+        <h2 className="text-xl font-extrabold text-foreground mb-5">Serviços</h2>
       </ScrollFadeIn>
       <div className="flex flex-col gap-3">
         {services.map((s, i) => (
           <ScrollFadeIn key={s.name} delay={i * 0.07}>
-            <button
-              onClick={() => navigate("/?quiz=1")}
-              className="w-full flex items-center gap-3 p-4 rounded-xl border border-border bg-card text-left active:scale-[0.98] transition-transform"
+            <div
+              className="w-full flex items-center gap-3 p-4 rounded-xl border border-border bg-card"
               style={{ minHeight: "64px" }}
             >
               <div className="shrink-0 w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -40,7 +36,7 @@ export function ServicesSection() {
                 </div>
                 <p className="text-xs text-muted-foreground mt-0.5 truncate">{s.desc}</p>
               </div>
-            </button>
+            </div>
           </ScrollFadeIn>
         ))}
       </div>

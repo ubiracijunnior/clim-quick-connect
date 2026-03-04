@@ -16,7 +16,7 @@ export function BenefitsSection() {
   return (
     <section className="w-full max-w-[480px] mx-auto px-4 py-8">
       <ScrollFadeIn>
-        <h2 className="text-lg font-bold text-foreground mb-4">Benefícios</h2>
+        <h2 className="text-xl font-extrabold text-foreground mb-5">Benefícios</h2>
       </ScrollFadeIn>
       <div className="flex flex-col gap-3 mb-8">
         {benefits.map((b, i) => (
