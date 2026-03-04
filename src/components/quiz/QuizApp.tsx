@@ -7,6 +7,7 @@ import { StepLayout } from "./StepLayout";
 import { RadioCards } from "./RadioCards";
 import { QuizInput } from "./QuizInput";
 import { CityNeighborhoodStep } from "./CityNeighborhoodStep";
+import { BrandStep } from "./BrandStep";
 
 const STEP_CONFIG: Record<
   string,
@@ -122,12 +123,9 @@ export function QuizApp() {
         );
       case "marca":
         return (
-          <QuizInput
+          <BrandStep
             value={data.marca}
             onChange={(v) => updateField("marca", v)}
-            placeholder="Ex: LG, Samsung, Gree…"
-            maxLength={20}
-            minLength={2}
           />
         );
       case "cidade_bairro":
