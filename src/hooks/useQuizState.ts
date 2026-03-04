@@ -109,7 +109,6 @@ export function useQuizState() {
 
   const steps = useMemo((): StepId[] => {
     const s: StepId[] = [
-      "welcome",
       "servico",
       "tipo_local",
       "tipo_aparelho",

@@ -26,8 +26,8 @@ export function HeroSection() {
         <motion.img
           src={climLogo}
           alt="CLIM TECH logo"
-          className="w-36 h-36 object-contain mb-6 drop-shadow-lg"
-          style={{ maxWidth: "160px" }}
+          className="w-48 h-48 object-contain mb-6 drop-shadow-lg"
+          style={{ maxWidth: "200px" }}
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease }}
