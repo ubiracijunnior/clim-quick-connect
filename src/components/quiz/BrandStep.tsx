@@ -33,7 +33,7 @@ export function BrandStep({ value, onChange }: BrandStepProps) {
   const handleSelect = (brand: string) => {
     if (brand === "Outra") {
       setShowCustom(true);
-      onChange(""); // clear so user types
+      onChange("");
     } else {
       setShowCustom(false);
       onChange(brand);
@@ -41,34 +41,32 @@ export function BrandStep({ value, onChange }: BrandStepProps) {
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="grid grid-cols-2 gap-2">
-        {BRANDS.map((brand) => {
-          const selected = brand === "Outra" ? showCustom : value === brand;
-          return (
-            <button
-              key={brand}
-              onClick={() => handleSelect(brand)}
-              className={`relative flex items-center gap-2 px-3 py-3 rounded-xl border-2 text-left font-medium text-sm transition-all duration-200 active:scale-[0.97] ${
+    <div className="flex flex-col gap-2">
+      {BRANDS.map((brand) => {
+        const selected = brand === "Outra" ? showCustom : value === brand;
+        return (
+          <button
+            key={brand}
+            onClick={() => handleSelect(brand)}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left font-medium text-sm transition-all duration-200 active:scale-[0.97] ${
+              selected
+                ? "border-quiz-selected bg-quiz-hover text-foreground shadow-sm"
+                : "border-quiz-border bg-card text-foreground hover:border-muted-foreground/30"
+            }`}
+          >
+            <div
+              className={`flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
                 selected
-                  ? "border-quiz-selected bg-quiz-hover text-foreground shadow-sm"
-                  : "border-quiz-border bg-card text-foreground hover:border-muted-foreground/30"
+                  ? "border-quiz-selected bg-quiz-selected"
+                  : "border-quiz-border"
               }`}
             >
-              <div
-                className={`flex-shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all ${
-                  selected
-                    ? "border-quiz-selected bg-quiz-selected"
-                    : "border-quiz-border"
-                }`}
-              >
-                {selected && <Check size={10} className="text-primary-foreground" />}
-              </div>
-              <span className="truncate">{brand}</span>
-            </button>
-          );
-        })}
-      </div>
+              {selected && <Check size={12} className="text-primary-foreground" />}
+            </div>
+            <span>{brand}</span>
+          </button>
+        );
+      })}
 
       {showCustom && (
         <div className="mt-1">
