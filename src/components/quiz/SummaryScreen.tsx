@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { ArrowLeft, CheckCircle2, MessageCircle, AlertTriangle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ArrowLeft, CheckCircle2, MessageCircle, AlertTriangle, RotateCcw } from "lucide-react";
 import { type QuizData, buildWhatsAppLink, formatFee } from "@/hooks/useQuizState";
 
 interface SummaryScreenProps {
   data: QuizData;
   onBack: () => void;
+  onReset: () => void;
 }
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
@@ -18,8 +20,14 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-export function SummaryScreen({ data, onBack }: SummaryScreenProps) {
+export function SummaryScreen({ data, onBack, onReset }: SummaryScreenProps) {
   const [confirmed, setConfirmed] = useState(false);
+  const navigate = useNavigate();
+
+  const handleReset = () => {
+    onReset();
+    navigate("/");
+  };
 
   const handleSend = () => {
     if (!confirmed) return;
@@ -155,6 +163,13 @@ export function SummaryScreen({ data, onBack }: SummaryScreenProps) {
         >
           <MessageCircle size={20} />
           ENVIAR NO WHATSAPP AGORA
+        </button>
+        <button
+          onClick={handleReset}
+          className="w-full mt-2 py-3 rounded-xl font-semibold text-sm tracking-wide transition-all duration-200 flex items-center justify-center gap-2 border border-border text-muted-foreground hover:bg-muted active:scale-[0.98]"
+        >
+          <RotateCcw size={16} />
+          Voltar ao site
         </button>
         <p className="text-xs text-center text-muted-foreground mt-2">
           Ao tocar em enviar, você será direcionado para o WhatsApp da CLIM

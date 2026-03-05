@@ -143,8 +143,8 @@ export function useQuizState() {
   }, [data.servico, data.problema, data.turno]);
 
   const currentStep = steps[currentStepIndex];
-  const totalQuizSteps = steps.length - 2; // exclude welcome and resumo
-  const quizStepNumber = Math.max(0, currentStepIndex - 1); // 0-based after welcome
+  const totalQuizSteps = steps.length - 1; // exclude resumo
+  const quizStepNumber = currentStepIndex + 1; // 1-based
 
   const canGoNext = useMemo(() => {
     switch (currentStep) {
