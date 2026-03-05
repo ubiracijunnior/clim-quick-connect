@@ -227,6 +227,11 @@ export function useQuizState() {
     setCurrentStepIndex((i) => Math.max(i - 1, 0));
   }, []);
 
+  const resetQuiz = useCallback(() => {
+    setData(initialData);
+    setCurrentStepIndex(0);
+  }, []);
+
   return {
     data,
     updateField,
@@ -240,6 +245,7 @@ export function useQuizState() {
     canGoNext,
     goNext,
     goBack,
+    resetQuiz,
   };
 }
 

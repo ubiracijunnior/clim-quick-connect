@@ -33,7 +33,7 @@ const STEP_CONFIG: Record<
 
 export function QuizApp() {
   const quiz = useQuizState();
-  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps } = quiz;
+  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps, resetQuiz } = quiz;
 
   const [direction, setDirection] = useState(1);
   const shouldReduceMotion = useReducedMotion();
@@ -75,7 +75,7 @@ export function QuizApp() {
   }
 
   if (currentStep === "resumo") {
-    return <SummaryScreen data={data} onBack={handleBack} />;
+    return <SummaryScreen data={data} onBack={handleBack} onReset={resetQuiz} />;
   }
 
   const config = STEP_CONFIG[currentStep] || { title: "" };
