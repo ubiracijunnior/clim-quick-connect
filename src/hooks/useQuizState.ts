@@ -27,6 +27,12 @@ export interface QuizData {
   problema: string;
   detalhes: string;
   estado_aparelho: string;
+  // Instalação extras
+  foto_etiqueta_url: string;
+  foto_etiqueta_nome: string;
+  foto_etiqueta_enviada: boolean;
+  foto_etiqueta_pulada: boolean;
+  parte_eletrica: string;
 }
 
 const initialData: QuizData = {
@@ -53,6 +59,11 @@ const initialData: QuizData = {
   problema: "",
   detalhes: "",
   estado_aparelho: "",
+  foto_etiqueta_url: "",
+  foto_etiqueta_nome: "",
+  foto_etiqueta_enviada: false,
+  foto_etiqueta_pulada: false,
+  parte_eletrica: "",
 };
 
 export type StepId =
@@ -69,6 +80,8 @@ export type StepId =
   | "problema"
   | "detalhes"
   | "estado_aparelho"
+  | "foto_etiqueta"
+  | "parte_eletrica"
   | "turno"
   | "faixa_horario"
   | "urgencia"
@@ -125,7 +138,7 @@ export function useQuizState() {
 
     // Conditional blocks based on service
     if (data.servico === "Instalação") {
-      s.push("btus", "infra");
+      s.push("foto_etiqueta", "parte_eletrica", "btus", "infra");
     } else if (data.servico === "Higienização") {
       s.push("plano_higienizacao");
     } else if (data.servico === "Manutenção Corretiva") {
@@ -164,6 +177,10 @@ export function useQuizState() {
         return !!data.quantidade;
       case "estado_aparelho":
         return !!data.estado_aparelho;
+      case "foto_etiqueta":
+        return data.foto_etiqueta_enviada || data.foto_etiqueta_pulada;
+      case "parte_eletrica":
+        return !!data.parte_eletrica;
       case "marca":
         return data.marca.trim().length >= 2;
       case "cidade_bairro":
@@ -218,6 +235,11 @@ export function useQuizState() {
         plano_higienizacao: "",
         problema: "",
         detalhes: "",
+        foto_etiqueta_url: "",
+        foto_etiqueta_nome: "",
+        foto_etiqueta_enviada: false,
+        foto_etiqueta_pulada: false,
+        parte_eletrica: "",
       }));
     }
 
@@ -264,7 +286,16 @@ export function buildWhatsAppLink(data: QuizData): string {
 
   let bloco = "";
   if (data.servico === "Instalação") {
-    bloco = `📌 Instalação:\n• BTUs: ${data.btus}\n• Infraestrutura (suporte/tubos/conexões): ${data.infra}\n`;
+    const fotoText = data.foto_etiqueta_enviada ? "enviada em anexo" : "não enviada";
+    const eletrText = data.parte_eletrica === "sim_pronta"
+      ? "Sim, já está pronta"
+      : data.parte_eletrica === "nao_pronta"
+        ? "Não, ainda não está pronta"
+        : "Não sei informar";
+    bloco = `📌 Instalação:\n• 🏷️ Etiqueta do aparelho: ${fotoText}\n• ⚡ Parte elétrica adequada: ${eletrText}\n• BTUs: ${data.btus}\n• Infraestrutura (suporte/tubos/conexões): ${data.infra}\n`;
+    if (data.foto_etiqueta_enviada && data.foto_etiqueta_url) {
+      bloco += `• 📷 Foto da etiqueta: ${data.foto_etiqueta_url}\n`;
+    }
   } else if (data.servico === "Higienização") {
     bloco = `🧼 Higienização:\n• Plano: ${data.plano_higienizacao}\n`;
   } else if (data.servico === "Manutenção Corretiva") {
