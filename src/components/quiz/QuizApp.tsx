@@ -8,6 +8,7 @@ import { RadioCards } from "./RadioCards";
 import { QuizInput } from "./QuizInput";
 import { CityNeighborhoodStep } from "./CityNeighborhoodStep";
 import { BrandStep } from "./BrandStep";
+import { ApplianceLabelStep } from "./ApplianceLabelStep";
 
 const STEP_CONFIG: Record<
   string,
@@ -23,6 +24,8 @@ const STEP_CONFIG: Record<
   faixa_horario: { title: "Faixa de horário", subtitle: "Confirme a faixa preferencial" },
   urgencia: { title: "Qual a urgência?", subtitle: "Nos ajude a priorizar seu atendimento" },
   estado_aparelho: { title: "Esse aparelho é novo ou já foi utilizado?", subtitle: "Essa informação nos ajuda a preparar melhor o atendimento." },
+  foto_etiqueta: { title: "Envie uma foto da etiqueta do ar-condicionado", subtitle: "A etiqueta nos ajuda a confirmar modelo, capacidade e voltagem do aparelho." },
+  parte_eletrica: { title: "A parte elétrica já está pronta para a voltagem correta do aparelho?", subtitle: "Isso ajuda a verificar se o local já está preparado para a instalação." },
   nome_cliente: { title: "Qual o seu nome?" },
   telefone_alternativo: { title: "Qual o seu melhor WhatsApp?", subtitle: "Opcional — outro número para contato" },
   btus: { title: "Capacidade (BTUs)", subtitle: "Selecione a potência desejada" },
@@ -120,6 +123,53 @@ export function QuizApp() {
             value={data.estado_aparelho === "novo" ? "Novo" : data.estado_aparelho === "usado" ? "Usado" : ""}
             onChange={(v) => updateField("estado_aparelho", v.toLowerCase())}
             columns={2}
+          />
+        );
+      case "foto_etiqueta":
+        return (
+          <ApplianceLabelStep
+            imageUrl={data.foto_etiqueta_url}
+            imageName={data.foto_etiqueta_nome}
+            uploaded={data.foto_etiqueta_enviada}
+            skipped={data.foto_etiqueta_pulada}
+            onUpload={(url, name) => {
+              updateField("foto_etiqueta_url", url);
+              updateField("foto_etiqueta_nome", name);
+              updateField("foto_etiqueta_enviada", true as any);
+              updateField("foto_etiqueta_pulada", false as any);
+            }}
+            onRemove={() => {
+              updateField("foto_etiqueta_url", "");
+              updateField("foto_etiqueta_nome", "");
+              updateField("foto_etiqueta_enviada", false as any);
+              updateField("foto_etiqueta_pulada", false as any);
+            }}
+            onSkip={() => {
+              updateField("foto_etiqueta_pulada", true as any);
+            }}
+          />
+        );
+      case "parte_eletrica":
+        return (
+          <RadioCards
+            options={[
+              "Sim, já está pronta",
+              "Não, ainda não está pronta",
+              "Não sei informar",
+            ]}
+            value={
+              data.parte_eletrica === "sim_pronta" ? "Sim, já está pronta" :
+              data.parte_eletrica === "nao_pronta" ? "Não, ainda não está pronta" :
+              data.parte_eletrica === "nao_sei" ? "Não sei informar" : ""
+            }
+            onChange={(v) => {
+              const map: Record<string, string> = {
+                "Sim, já está pronta": "sim_pronta",
+                "Não, ainda não está pronta": "nao_pronta",
+                "Não sei informar": "nao_sei",
+              };
+              updateField("parte_eletrica", map[v] || v);
+            }}
           />
         );
       case "quantidade":
