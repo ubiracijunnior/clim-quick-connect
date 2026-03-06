@@ -125,6 +125,53 @@ export function QuizApp() {
             columns={2}
           />
         );
+      case "foto_etiqueta":
+        return (
+          <ApplianceLabelStep
+            imageUrl={data.foto_etiqueta_url}
+            imageName={data.foto_etiqueta_nome}
+            uploaded={data.foto_etiqueta_enviada}
+            skipped={data.foto_etiqueta_pulada}
+            onUpload={(url, name) => {
+              updateField("foto_etiqueta_url", url);
+              updateField("foto_etiqueta_nome", name);
+              updateField("foto_etiqueta_enviada", true as any);
+              updateField("foto_etiqueta_pulada", false as any);
+            }}
+            onRemove={() => {
+              updateField("foto_etiqueta_url", "");
+              updateField("foto_etiqueta_nome", "");
+              updateField("foto_etiqueta_enviada", false as any);
+              updateField("foto_etiqueta_pulada", false as any);
+            }}
+            onSkip={() => {
+              updateField("foto_etiqueta_pulada", true as any);
+            }}
+          />
+        );
+      case "parte_eletrica":
+        return (
+          <RadioCards
+            options={[
+              "Sim, já está pronta",
+              "Não, ainda não está pronta",
+              "Não sei informar",
+            ]}
+            value={
+              data.parte_eletrica === "sim_pronta" ? "Sim, já está pronta" :
+              data.parte_eletrica === "nao_pronta" ? "Não, ainda não está pronta" :
+              data.parte_eletrica === "nao_sei" ? "Não sei informar" : ""
+            }
+            onChange={(v) => {
+              const map: Record<string, string> = {
+                "Sim, já está pronta": "sim_pronta",
+                "Não, ainda não está pronta": "nao_pronta",
+                "Não sei informar": "nao_sei",
+              };
+              updateField("parte_eletrica", map[v] || v);
+            }}
+          />
+        );
       case "quantidade":
         return (
           <RadioCards

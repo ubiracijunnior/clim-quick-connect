@@ -90,6 +90,34 @@ export function SummaryScreen({ data, onBack, onReset }: SummaryScreenProps) {
                 <p className="text-xs font-semibold text-primary mb-2 uppercase tracking-wide">
                   📌 Instalação
                 </p>
+                <SummaryRow
+                  label="Foto da etiqueta"
+                  value={data.foto_etiqueta_enviada ? "Enviada ✅" : "Não enviada"}
+                />
+                {data.foto_etiqueta_enviada && data.foto_etiqueta_url && (
+                  <div className="my-2">
+                    <a
+                      href={data.foto_etiqueta_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block"
+                    >
+                      <img
+                        src={data.foto_etiqueta_url}
+                        alt="Etiqueta do aparelho"
+                        className="w-24 h-24 object-cover rounded-lg border border-border"
+                      />
+                    </a>
+                  </div>
+                )}
+                <SummaryRow
+                  label="Parte elétrica"
+                  value={
+                    data.parte_eletrica === "sim_pronta" ? "Sim, já está pronta" :
+                    data.parte_eletrica === "nao_pronta" ? "Não, ainda não está pronta" :
+                    "Não sei informar"
+                  }
+                />
                 <SummaryRow label="BTUs" value={data.btus} />
                 <SummaryRow label="Infraestrutura" value={data.infra} />
               </div>
