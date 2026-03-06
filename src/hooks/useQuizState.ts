@@ -282,6 +282,7 @@ export function buildWhatsAppLink(data: QuizData): string {
     `✅ Serviço: ${data.servico}\n` +
     `🏢 Local: ${data.tipo_local}\n` +
     `❄️ Tipo de aparelho: ${data.tipo_aparelho}\n` +
+    `🔄 Estado do aparelho: ${data.estado_aparelho === "novo" ? "Novo" : "Usado"}\n` +
     `🔢 Quantidade: ${data.quantidade}\n` +
     `🏷️ Marca: ${data.marca}\n` +
     `📍 Cidade: ${data.cidade}\n` +
