@@ -26,6 +26,7 @@ export interface QuizData {
   plano_higienizacao: string;
   problema: string;
   detalhes: string;
+  estado_aparelho: string;
 }
 
 const initialData: QuizData = {
@@ -51,6 +52,7 @@ const initialData: QuizData = {
   plano_higienizacao: "",
   problema: "",
   detalhes: "",
+  estado_aparelho: "",
 };
 
 export type StepId =
@@ -66,6 +68,7 @@ export type StepId =
   | "plano_higienizacao"
   | "problema"
   | "detalhes"
+  | "estado_aparelho"
   | "turno"
   | "faixa_horario"
   | "urgencia"
@@ -115,6 +118,7 @@ export function useQuizState() {
       "tipo_local",
       "tipo_aparelho",
       "quantidade",
+      "estado_aparelho",
       "marca",
       "cidade_bairro",
     ];
@@ -158,6 +162,8 @@ export function useQuizState() {
         return !!data.tipo_aparelho;
       case "quantidade":
         return !!data.quantidade;
+      case "estado_aparelho":
+        return !!data.estado_aparelho;
       case "marca":
         return data.marca.trim().length >= 2;
       case "cidade_bairro":
@@ -276,6 +282,7 @@ export function buildWhatsAppLink(data: QuizData): string {
     `✅ Serviço: ${data.servico}\n` +
     `🏢 Local: ${data.tipo_local}\n` +
     `❄️ Tipo de aparelho: ${data.tipo_aparelho}\n` +
+    `🔄 Estado do aparelho: ${data.estado_aparelho === "novo" ? "Novo" : "Usado"}\n` +
     `🔢 Quantidade: ${data.quantidade}\n` +
     `🏷️ Marca: ${data.marca}\n` +
     `📍 Cidade: ${data.cidade}\n` +
@@ -286,6 +293,7 @@ export function buildWhatsAppLink(data: QuizData): string {
     `⚡ Urgência: ${data.urgencia}\n` +
     `📞 Telefone alternativo: ${telefone}\n\n` +
     (bloco ? bloco + "\n" : "") +
+    (data.estado_aparelho === "usado" ? `⚠️ Observação: aparelho usado. Garantia apenas sobre o serviço realizado.\n\n` : "") +
     `💰 Taxa de visita técnica: ${feeText}\n` +
     `ℹ️ Se o serviço for realizado, esse valor será abatido do total. Caso contrário, a taxa permanece como custo da visita.\n\n` +
     `Pode me passar os próximos horários disponíveis?`;

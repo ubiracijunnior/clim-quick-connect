@@ -70,6 +70,7 @@ export function SummaryScreen({ data, onBack, onReset }: SummaryScreenProps) {
           <SummaryRow label="Serviço" value={data.servico} />
           <SummaryRow label="Local" value={data.tipo_local} />
           <SummaryRow label="Tipo de aparelho" value={data.tipo_aparelho} />
+          <SummaryRow label="Estado do aparelho" value={data.estado_aparelho === "novo" ? "Novo" : "Usado"} />
           <SummaryRow label="Quantidade" value={data.quantidade} />
           <SummaryRow label="Marca" value={data.marca} />
           <SummaryRow label="Cidade" value={data.cidade} />
@@ -122,6 +123,24 @@ export function SummaryScreen({ data, onBack, onReset }: SummaryScreenProps) {
             <SummaryRow label="Valor" value={feeDisplay} />
           </div>
         </div>
+
+        {/* Warranty warning for used appliances */}
+        {data.estado_aparelho === "usado" && (
+          <div className="mt-4 bg-destructive/10 border border-destructive/30 rounded-2xl p-4">
+            <div className="flex items-start gap-2.5">
+              <AlertTriangle size={20} className="text-destructive flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-bold text-foreground mb-1">⚠️ Atenção sobre garantia</p>
+                <p className="text-sm text-foreground leading-relaxed">
+                  Por se tratar de um aparelho já utilizado anteriormente, a garantia oferecida pela CLIM TECH será apenas sobre o serviço realizado (instalação, manutenção ou higienização).
+                </p>
+                <p className="text-sm text-foreground leading-relaxed mt-1">
+                  Não é possível oferecer garantia sobre o funcionamento do aparelho em si.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Attention block */}
         <div className="mt-4 bg-warning/10 border border-warning/30 rounded-2xl p-4">
