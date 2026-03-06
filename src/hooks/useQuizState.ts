@@ -26,6 +26,7 @@ export interface QuizData {
   plano_higienizacao: string;
   problema: string;
   detalhes: string;
+  estado_aparelho: string;
 }
 
 const initialData: QuizData = {
@@ -51,6 +52,7 @@ const initialData: QuizData = {
   plano_higienizacao: "",
   problema: "",
   detalhes: "",
+  estado_aparelho: "",
 };
 
 export type StepId =
@@ -66,6 +68,7 @@ export type StepId =
   | "plano_higienizacao"
   | "problema"
   | "detalhes"
+  | "estado_aparelho"
   | "turno"
   | "faixa_horario"
   | "urgencia"
@@ -115,6 +118,7 @@ export function useQuizState() {
       "tipo_local",
       "tipo_aparelho",
       "quantidade",
+      "estado_aparelho",
       "marca",
       "cidade_bairro",
     ];
@@ -158,6 +162,8 @@ export function useQuizState() {
         return !!data.tipo_aparelho;
       case "quantidade":
         return !!data.quantidade;
+      case "estado_aparelho":
+        return !!data.estado_aparelho;
       case "marca":
         return data.marca.trim().length >= 2;
       case "cidade_bairro":
