@@ -8,6 +8,7 @@ import { RadioCards } from "./RadioCards";
 import { QuizInput } from "./QuizInput";
 import { CityNeighborhoodStep } from "./CityNeighborhoodStep";
 import { BrandStep } from "./BrandStep";
+import { ApplianceLabelStep } from "./ApplianceLabelStep";
 
 const STEP_CONFIG: Record<
   string,
@@ -23,6 +24,8 @@ const STEP_CONFIG: Record<
   faixa_horario: { title: "Faixa de horário", subtitle: "Confirme a faixa preferencial" },
   urgencia: { title: "Qual a urgência?", subtitle: "Nos ajude a priorizar seu atendimento" },
   estado_aparelho: { title: "Esse aparelho é novo ou já foi utilizado?", subtitle: "Essa informação nos ajuda a preparar melhor o atendimento." },
+  foto_etiqueta: { title: "Envie uma foto da etiqueta do ar-condicionado", subtitle: "A etiqueta nos ajuda a confirmar modelo, capacidade e voltagem do aparelho." },
+  parte_eletrica: { title: "A parte elétrica já está pronta para a voltagem correta do aparelho?", subtitle: "Isso ajuda a verificar se o local já está preparado para a instalação." },
   nome_cliente: { title: "Qual o seu nome?" },
   telefone_alternativo: { title: "Qual o seu melhor WhatsApp?", subtitle: "Opcional — outro número para contato" },
   btus: { title: "Capacidade (BTUs)", subtitle: "Selecione a potência desejada" },
@@ -34,7 +37,7 @@ const STEP_CONFIG: Record<
 
 export function QuizApp() {
   const quiz = useQuizState();
-  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps, resetQuiz } = quiz;
+  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps, resetQuiz, setData } = quiz;
 
   const [direction, setDirection] = useState(1);
   const shouldReduceMotion = useReducedMotion();
