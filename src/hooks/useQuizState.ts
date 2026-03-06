@@ -292,6 +292,7 @@ export function buildWhatsAppLink(data: QuizData): string {
     `⚡ Urgência: ${data.urgencia}\n` +
     `📞 Telefone alternativo: ${telefone}\n\n` +
     (bloco ? bloco + "\n" : "") +
+    (data.estado_aparelho === "usado" ? `⚠️ Observação: aparelho usado. Garantia apenas sobre o serviço realizado.\n\n` : "") +
     `💰 Taxa de visita técnica: ${feeText}\n` +
     `ℹ️ Se o serviço for realizado, esse valor será abatido do total. Caso contrário, a taxa permanece como custo da visita.\n\n` +
     `Pode me passar os próximos horários disponíveis?`;

@@ -22,6 +22,7 @@ const STEP_CONFIG: Record<
   turno: { title: "Turno preferido", subtitle: "Qual melhor horário para você?" },
   faixa_horario: { title: "Faixa de horário", subtitle: "Confirme a faixa preferencial" },
   urgencia: { title: "Qual a urgência?", subtitle: "Nos ajude a priorizar seu atendimento" },
+  estado_aparelho: { title: "Esse aparelho é novo ou já foi utilizado?", subtitle: "Essa informação nos ajuda a preparar melhor o atendimento." },
   nome_cliente: { title: "Qual o seu nome?" },
   telefone_alternativo: { title: "Qual o seu melhor WhatsApp?", subtitle: "Opcional — outro número para contato" },
   btus: { title: "Capacidade (BTUs)", subtitle: "Selecione a potência desejada" },
@@ -112,6 +113,15 @@ export function QuizApp() {
           />
         );
       }
+      case "estado_aparelho":
+        return (
+          <RadioCards
+            options={["Novo", "Usado"]}
+            value={data.estado_aparelho === "novo" ? "Novo" : data.estado_aparelho === "usado" ? "Usado" : ""}
+            onChange={(v) => updateField("estado_aparelho", v.toLowerCase())}
+            columns={2}
+          />
+        );
       case "quantidade":
         return (
           <RadioCards
