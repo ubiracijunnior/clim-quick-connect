@@ -37,7 +37,7 @@ const STEP_CONFIG: Record<
 
 export function QuizApp() {
   const quiz = useQuizState();
-  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps, resetQuiz, setData } = quiz;
+  const { data, updateField, setCity, setNeighborhood, currentStep, goNext, goBack, canGoNext, quizStepNumber, totalQuizSteps, resetQuiz } = quiz;
 
   const [direction, setDirection] = useState(1);
   const shouldReduceMotion = useReducedMotion();
